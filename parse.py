@@ -79,11 +79,6 @@ def twac(arr):
         wpt_arr.append(line)
     logger.debug('twac OK')
     return wpt_arr
-        
-arr = get_arr_wpt(get_page('uuww', 'uspp'))
-for i in arr:
-    print(i)
-#r = get_page('WSSS', 'KJFK')
 
 def arr_of_wpt(air1, air2, hdg):   
     global logger
