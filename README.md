@@ -3,4 +3,5 @@ It's Navigation Calculator has to help users not to count manually the coordinat
 NC count coordinates for MainOrtho and PrivateOrtho.
 
 If you want, you can use .exe file which can work without Py
+
 Donwload link: https://drive.google.com/drive/folders/1pt07f7CX2kM8ahdivcRytMqZWjsHCghj?usp=sharing
