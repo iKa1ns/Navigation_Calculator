@@ -1,24 +1,7 @@
 from fpdf import FPDF
 import parse
-import logging
-import os
-
-logger = logging.getLogger(os.path.basename(__file__))
-file_handler = logging.FileHandler('log.txt')
-logger.setLevel(logging.DEBUG)
-file_handler.setLevel(logging.DEBUG)
-
-strfmt = '[%(asctime)s] [%(name)s] [%(levelname)s] > %(message)s'
-datefmt = '%Y-%m-%d %H:%M:%S'
-formatter = logging.Formatter(fmt=strfmt, datefmt=datefmt)
-
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
 
 def do_a_pdf(air1, air2, hdg):
-    global logger
-    
-    logger.debug('Enter in next module')
     headings = ['WPT','FREQ','HDG', 'DIST', 'X', 'Y', 'COORDS', 'NAME']
     rows = parse.arr_of_wpt(air1, air2, hdg)
     
@@ -74,7 +57,5 @@ def do_a_pdf(air1, air2, hdg):
         pdf.ln()
         fill = not fill
     pdf.cell(sum(col_widths), 0, "", "T")
-    logger.debug('Creatig a pdf...')
     pdf.output("route.pdf")
-    logger.debug('OK')
 

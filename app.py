@@ -12,8 +12,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import pdf
 import help_win
-import logging
-import os
 
 class TwoWindow(QtWidgets.QMainWindow, help_win.Ui_MainWindow):
         def __init__(self):
@@ -101,51 +99,36 @@ class Ui_MainWindow(object):
         msg.setWindowTitle("Error")
 
         
-        logger = logging.getLogger(os.path.basename(__file__))
-        file_handler = logging.FileHandler('log.txt')
-        logger.setLevel(logging.DEBUG)
-        file_handler.setLevel(logging.DEBUG)
-        
-        strfmt = '[%(asctime)s] [%(name)s] [%(levelname)s] > %(message)s'
-        datefmt = '%Y-%m-%d %H:%M:%S'
-        formatter = logging.Formatter(fmt=strfmt, datefmt=datefmt)
-        
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
-        
         air1 = self.lineEdit.text().upper()
         air2 = self.lineEdit_2.text().upper()
         hdg = self.lineEdit_3.text()
-        try:
-                if len(air1) != 4 or len(air2) != 4:
-                    msg.setInformativeText('Please use simple ICAO code like XXXX')
+        
+        if len(air1) != 4 or len(air2) != 4:
+            msg.setInformativeText('Please use simple ICAO code like XXXX')
+            msg.exec_()
+        elif air1 == air2:
+            msg.setInformativeText('Origin and dest ICAO is equal')
+            msg.exec_()
+        elif len(hdg) == 0:
+            msg.setInformativeText('Please write heading of runway')
+            msg.exec_()
+        else:
+            hdg = float(hdg)
+            if hdg>360:
+                msg.setInformativeText('Heading is wrong')
+                msg.exec_()
+            #else:
+            with open('Data/airports.txt', 'r') as f:
+                arr = f.readlines()
+                line = ''.join(arr)
+                if line.find(air1) == -1:
+                    msg.setInformativeText('Origin ICAO not found')
                     msg.exec_()
-                elif air1 == air2:
-                    msg.setInformativeText('Origin and dest ICAO is equal')
-                    msg.exec_()
-                elif len(hdg) == 0:
-                    msg.setInformativeText('Please write heading of runway')
+                elif line.find(air2) == -1:
+                    msg.setInformativeText('Dest ICAO not found')
                     msg.exec_()
                 else:
-                    hdg = float(hdg)
-                    if hdg>360:
-                        msg.setInformativeText('Heading is wrong')
-                        msg.exec_()
-                    else:
-                        with open('Data/airports.txt', 'r') as f:
-                            arr = f.readlines()
-                            line = ''.join(arr)
-                            if line.find(air1) == -1:
-                                msg.setInformativeText('Origin ICAO not found')
-                                msg.exec_()
-                            elif line.find(air2) == -1:
-                                msg.setInformativeText('Dest ICAO not found')
-                                msg.exec_()
-                            else:
-                                logger.debug('OK')
-                                pdf.do_a_pdf(air1, air2, hdg)                                
-        except Exception as ex:
-                logger.debug(str(ex))
+                    pdf.do_a_pdf(air1, air2, hdg)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
