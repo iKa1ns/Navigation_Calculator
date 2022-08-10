@@ -46,7 +46,7 @@ def get_arr_wpt(r):
             line = val[j] + ' ' + line
             val.pop(j)
             j -= 1
-            if val[j].isalpha() == False and val[j] != '/':
+            if val[j].isalpha() == False and val[j] != '/' and val[j].find('/') == -1:
                 val.append(line)
                 break
         if len(val) != 7:
@@ -80,7 +80,9 @@ def twac(arr):
     logger.debug('twac OK')
     return wpt_arr
         
-#get_arr_wpt(get_page('unkl', 'usrr'))
+arr = get_arr_wpt(get_page('uuww', 'uspp'))
+for i in arr:
+    print(i)
 #r = get_page('WSSS', 'KJFK')
 
 def arr_of_wpt(air1, air2, hdg):   
