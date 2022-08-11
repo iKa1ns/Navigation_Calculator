@@ -16,7 +16,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("Help")
         MainWindow.resize(261, 52)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Plane_font_awesome.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setMinimumSize(QtCore.QSize(261, 52))
         MainWindow.setMaximumSize(QtCore.QSize(261, 52))
@@ -46,7 +46,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Help"))
         self.label.setText(_translate("MainWindow", "If you have any questions, please contact me!"))
         self.label_2.setText(_translate("MainWindow", "Discord iKa1n#5904"))
         self.label_4.setText(_translate("MainWindow", "Ika1n@mail.ru"))

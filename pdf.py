@@ -1,7 +1,7 @@
 from fpdf import FPDF
 import parse
 
-def do_a_pdf(air1, air2, hdg):
+def create_a_pdf(air1, air2, hdg):
     headings = ['WPT','FREQ','HDG', 'DIST', 'X', 'Y', 'COORDS', 'NAME']
     rows = parse.arr_of_wpt(air1, air2, hdg)
     
@@ -57,5 +57,5 @@ def do_a_pdf(air1, air2, hdg):
         pdf.ln()
         fill = not fill
     pdf.cell(sum(col_widths), 0, "", "T")
-    pdf.output("route.pdf")
+    pdf.output(f'{air1}-{air2}.pdf')
 
