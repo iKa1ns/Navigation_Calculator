@@ -8,7 +8,32 @@ import os
 from geo_lib import *
 
 
-icao = ['uuww', 'ulli', 'urwa', 'uwkd', 'urml', 'uhww', 'urka', 'uiii', 'urss', 'usrr', 'umkk', 'uhmm', 'ulpb', 'uhpp']
+#icao = ['uuww', 'ulli', 'urwa', 'uwkd', 'urml', 'uhww', 'urka', 'uiii', 'urss', 'usrr', 'umkk', 'uhmm', 'ulpb', 'uhpp']
+
+def get_rwys(icao):  
+    old_time = time.time()
+    with open('Data/airports.txt', 'r') as f:
+        array = f.readlines()
+        arr = []
+        flag = False
+        i = 0
+
+        for i in range(len(array)):
+            if flag == False:
+                if array[i]!='\n':
+                    if array[i].split('|')[1]== icao:
+                        flag = True
+                        arr.append(array[i].replace('\n', '').split('|'))
+            else:
+                if array[i] != '\n':
+                    num = array[i].replace('\n', '').split('|')[2]
+                    if num not in arr:
+                        arr.append(num)
+                else:
+                    return arr
+                    break
+        else:
+            return []
 
 def get_page(air1, air2):
     url = 'http://rfinder.asalink.net/free/autoroute_rtx.php'
