@@ -9,32 +9,25 @@ from geo_lib import *
 
 
 #icao = ['uuww', 'ulli', 'urwa', 'uwkd', 'urml', 'uhww', 'urka', 'uiii', 'urss', 'usrr', 'umkk', 'uhmm', 'ulpb', 'uhpp']
-
+class rwy():
+    def __init__(self, arr):
+        self.glis = arr[1]
+        self.freq = arr[2]
+        self.lat = arr[3]
+        self.lenght = arr[4]
+        self.lng = arr[5]
+        self.name = 'RWY' + arr[6]
+        self.hdg = float(arr[7])
+        
 def get_rwys(icao):  
-    old_time = time.time()
-    with open('Data/airports.txt', 'r') as f:
-        array = f.readlines()
-        arr = []
-        flag = False
-        i = 0
-
-        for i in range(len(array)):
-            if flag == False:
-                if array[i]!='\n':
-                    if array[i].split('|')[1]== icao:
-                        flag = True
-                        arr.append(array[i].replace('\n', '').split('|'))
-            else:
-                if array[i] != '\n':
-                    num = array[i].replace('\n', '').split('|')[2]
-                    if num not in arr:
-                        arr.append(num)
-                else:
-                    return arr
-                    break
-        else:
-            return []
-
+    with open('navigation/Runways.db', 'r') as f:
+        arr = f.readlines()
+        out_arr = []
+        for i in arr:
+            if i.find(icao) != -1:
+                out_arr.append(rwy(i.replace('\n', '').split(';')))
+    return out_arr
+    
 def get_page(air1, air2):
     url = 'http://rfinder.asalink.net/free/autoroute_rtx.php'
     params_ = {'id1': air1, 'ic1': '', 'id2': air2, 'ic2': '', 'minalt': 'FL330', 'maxalt': 'FL330', 'lvl': 'B', 'dbid': '2207', 'usesid': 'Y', 'usestar': 'Y', 'easet': 'Y', 'rnav': 'Y', 'nats': 'R', 'k': '2033919939'}

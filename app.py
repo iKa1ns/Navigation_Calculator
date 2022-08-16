@@ -48,10 +48,10 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 2, 0, 1, 1)
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 2, 1, 1, 1)
+       # self.label = QtWidgets.QLabel(self.centralwidget)
+        #self.label.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        #self.label.setObjectName("label")
+        #self.gridLayout.addWidget(self.label, 2, 1, 1, 1)
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setMaxLength(4)
         self.lineEdit.setObjectName("lineEdit")
@@ -97,7 +97,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Navigation Calculator"))
         self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "Dest"))
         self.pushButton.setText(_translate("MainWindow", "Calculate"))
-        self.label.setText(_translate("MainWindow", "Runways\nheadings"))
+        #self.label.setText(_translate("MainWindow", "Runways\nheadings"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Origin"))
         self.actionHelp.setText(_translate("MainWindow", "Help"))
         
@@ -108,13 +108,10 @@ class Ui_MainWindow(object):
     def onChanged(self, text):
         self.comboBox.clear()
         if len(text) == 4:
-            array = get_rwys(text.upper())
-            if len(array) != 0:
-                for i, val in enumerate(array):
-                    if i == 0:
-                        continue
-                    else:
-                        self.comboBox.addItem(val)
+            self.arr1 = get_rwys(text.upper())
+            if len(self.arr1) != 0:
+                for i in self.arr1:
+                    self.comboBox.addItem(i.name)
                 if self.comboBox_2.count() != 0:
                     self.pushButton.setEnabled(True)
                 else:
@@ -130,13 +127,10 @@ class Ui_MainWindow(object):
     def onChanged_1(self, text):
         self.comboBox_2.clear()
         if len(text) == 4:
-            array = get_rwys(text.upper())
-            if len(array) != 0:
-                for i, val in enumerate(array):
-                    if i == 0:
-                        continue
-                    else:
-                        self.comboBox_2.addItem(val)
+            self.arr2 = get_rwys(text.upper())
+            if len(self.arr2) != 0:
+                for i in self.arr2:
+                    self.comboBox_2.addItem(i.name)
                 if self.comboBox.count() != 0:
                     self.pushButton.setEnabled(True)
                 else:
@@ -149,10 +143,10 @@ class Ui_MainWindow(object):
             self.pushButton.setEnabled(False)
     
     def calculate(self):
+        crs = self.arr1[self.comboBox.currentIndex()].hdg
         air1 = self.lineEdit.text().upper()
         air2 = self.lineEdit_2.text().upper()
-        hdg = int(self.comboBox.currentText())
-        pdf.create_a_pdf(air1, air2, hdg)
+        pdf.create_a_pdf(air1, air2, crs)
         
         
 if __name__ == "__main__":
