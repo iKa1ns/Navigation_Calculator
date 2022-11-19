@@ -13,6 +13,8 @@ import help_win
 import sys
 from parse import get_rwys
 import pdf
+import threading
+
 
 class HelpWindow(QtWidgets.QMainWindow, help_win.Ui_MainWindow):
         def __init__(self):
@@ -146,7 +148,8 @@ class Ui_MainWindow(object):
         crs = self.arr1[self.comboBox.currentIndex()].hdg
         air1 = self.lineEdit.text().upper()
         air2 = self.lineEdit_2.text().upper()
-        pdf.create_a_pdf(air1, air2, crs)
+        thread = threading.Thread(target=pdf.create_a_pdf, args=(air1, air2, crs))
+        thread.start()
         
         
 if __name__ == "__main__":
